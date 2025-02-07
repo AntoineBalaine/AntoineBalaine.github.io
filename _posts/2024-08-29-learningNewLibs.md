@@ -1,9 +1,24 @@
 ---
 layout: post
-title:  "[code] The opiniologue’s guide to keeping sane when learning a new tech"
-date:   2024-08-29 16:18:36 -0400
-categories: hairpulling
+title: "The opiniologue's guide to keeping sane when learning a new tech"
+date: 2024-08-29
+categories: [Development, Learning]
+tags: [learning-process, programming, methodology, best-practices]
+description: "A practical guide to learning new technologies efficiently, using project complexity matching and commit counting as progress metrics."
+toc: true
 ---
+
+1. [Disclaimer](#disclaimer)
+2. [The problem](#the-problem)
+3. [The lean mean learning machine only picks battles it can win](#the-lean-mean-learning-machine-only-picks-battles-it-can-win)
+4. [The copyist monk approach](#the-copyist-monk-approach)
+5. [Some merry-go-round projects](#some-merry-go-round-projects)
+6. [My merry go-round project: writing a small parser](#my-merry-go-round-project-writing-a-small-parser-for-a-markdown-format)
+7. [Try to match the size of the project to your level of proficiency](#try-to-match-the-size-of-the-project-to-your-level-of-proficiency)
+8. [The commit count](#the-commit-count)
+9. [Commit counts are vanity](#commit-counts-are-vanity-theyre-only-an-opiniologues-take)
+10. [Mind-experiment: reaching fluency with two unknowns](#mind-experiment-lets-think-about-what-its-like-to-reach-fluency-with-two-unknowns)
+11. [This line of thinking is not a system](#this-line-of-thinking-is-not-a-system)
 
 Notes from an internal presentation I did at my company.
 
@@ -17,21 +32,19 @@ The initial announcement carried the following bombastic teaser:
 
 # Disclaimer
 
-Learning is personal. 
+Learning is personal.
 
 I am but an obnoxious french opiniologue. Any of the following is thus only personal perspective. Don’t take it as gospel.
 
 > _«Only fools don’t change opinions. It’s my opinion, and I don’t see why I should change it.»_
 
----
 
 # The problem
-To learn a new language, you need to write a project. 
+To learn a new language, you need to write a project.
 To write a new project, you need to know the language.
 
 The project and the language are 2 unknowns, and you can only afford to have one of them.
 
----
 
 # The lean mean learning machine only picks battles it can win
 
@@ -39,7 +52,7 @@ Military industries only produce tank designs which’s specs guarantee 95% accu
 
 When the battle starts, if targets are outside of the tanks’ range, the tanks stay in the garage.
 
-### So should you. 
+### So should you.
 _Note: I promise this is the last «should» of this presentation._
 
 Anything below 95% certainty that you’re going to hit the bull’s eye is a waste of your time.
@@ -47,13 +60,12 @@ Anything below 95% certainty that you’re going to hit the bull’s eye is a wa
 Whichever new tech you’re trying to approach, the curriculum that you’re planning to follow needs to be perfectly clear.
 
 Having one unknown (i.e. the language or the framework) is inevitable. Having two is much too expensive.
-You can reduce the unknowns: 
-- write a program you already know in a new language, or 
+You can reduce the unknowns:
+- write a program you already know in a new language, or
 - write a new program in a language you already know.
 
----
 
-# The copyist monk approach: 
+# The copyist monk approach:
 
 Ready a small repertoire of programs, and port them to your new tech.
 
@@ -73,7 +85,6 @@ The skills that you acquire by implementing those programs give you a bag of tri
 - building,
 - etc.
 
----
 
 # Some merry-go-round projects:
 1. a parser
@@ -85,7 +96,6 @@ The skills that you acquire by implementing those programs give you a bag of tri
 7. a database
 8. a static site generator
 
----
 
 # My merry go-round project: writing a small parser for a markdown format
 
@@ -105,7 +115,6 @@ w: aaah - aaah - aah
   - use a reference implementation for a complex language like bash [FAILED also miserably]
   - use a reference implementation for a toy language [success!]
 
----
 Crafting Interpreter’s Lox scanner, in typescript, pulled from someone’s github repo:
 ```typescript
 export default class Scanner { // SawyerHood/lox-typescript
@@ -137,10 +146,9 @@ export default class Scanner { // SawyerHood/lox-typescript
       case ')':
         this.addToken(TokenType.RIGHT_PAREN)
         break
-    } 
+    }
 ```
 
----
 
 My version - the scanner for the ABC music markdown
 ```typescript
@@ -178,27 +186,25 @@ export class Scanner {
         this.addToken(TokenType.AMPERSAND); break;
 ```
 
----
 
-The language server project: 
+The language server project:
 ```tree
-jslox/src (fjakobs/jslox)             AbcLsp/src (my version)        
-├── extension.ts                      ├── extension.ts              
-├── jslox                             ├── extensionCommands.ts      
-├── lsp-client.ts                     ├── server                    
-├── server                            │   ├── AbcDocument.ts        
-│   ├── LoxDocument.ts                │   ├── AbcLspServer.ts       
-│   ├── LoxLspServer.ts               │   ├── completions.ts        
-│   ├── SemanticTokenAnalyzer.ts      │   ├── server.ts             
-│   └── server.ts                     │   └── server_helpers.ts     
-└── test                              └── test                      
-    ├── runTest.ts                        ├── runTest.ts            
-    └── suite                             └── suite                 
-        ├── extension.test.ts                 ├── extension.test.ts 
-        └── index.ts                          └── index.ts          
+jslox/src (fjakobs/jslox)             AbcLsp/src (my version)
+├── extension.ts                      ├── extension.ts
+├── jslox                             ├── extensionCommands.ts
+├── lsp-client.ts                     ├── server
+├── server                            │   ├── AbcDocument.ts
+│   ├── LoxDocument.ts                │   ├── AbcLspServer.ts
+│   ├── LoxLspServer.ts               │   ├── completions.ts
+│   ├── SemanticTokenAnalyzer.ts      │   ├── server.ts
+│   └── server.ts                     │   └── server_helpers.ts
+└── test                              └── test
+    ├── runTest.ts                        ├── runTest.ts
+    └── suite                             └── suite
+        ├── extension.test.ts                 ├── extension.test.ts
+        └── index.ts                          └── index.ts
 ```
 
----
 
 # Try to match the size of the project to your level of proficiency with the new tech
 
@@ -208,19 +214,18 @@ Assess: where am I in my progression?
 3. intermediate
 4. fluent
 
-Assessing this is fairly nebulous: 
+Assessing this is fairly nebulous:
 Some past projects of yours might have done a good job with the tech, but totally overlooked one of its big aspects.
 
 You can’t assess your overall in the blind, but you can assess the peak you have reached.
 
-You can objectivate your peak using a stupid metric: 
+You can objectivate your peak using a stupid metric:
 
----
 
 # the commit count
 
 How many commits does it take to implement one of the programs from my repertoire?
-How many unknowns are there going to be along the way? 
+How many unknowns are there going to be along the way?
 
 With 0 unknowns, there’s 0 challenge. With 2 unknowns, it’s too expensive to complete.
 
@@ -232,7 +237,7 @@ With 0 unknowns, there’s 0 challenge. With 2 unknowns, it’s too expensive to
   - copy an existing project or port an existing project to one of your languages
   - todo app
   - ini|json parser
-### 3. intermediate: <= 80 commits to complete 
+### 3. intermediate: <= 80 commits to complete
   - realworld app (port it to a known language, or copy a reference in your new language.)
 ### 4. fluent: > 100 commits
 
@@ -240,7 +245,6 @@ At each step of the process, you decrease how much you rely on existing examples
 
 These commit counts are rough patterns that I noticed in my process. Can they be trusted?
 
----
 
 # Commit counts are vanity. They’re only an opiniologue’s take.
 
@@ -257,7 +261,6 @@ If you’re averaging 5 commits day, you can do a rough estimate of time, but th
 
 You could use any other metric - provided that the number of unknowns at play does not falsify your findings.
 
----
 
 # Mind-experiment: let’s think about what it’s like to reach fluency with two unknowns
 
@@ -271,13 +274,12 @@ As a result, writing 10 commits of project, requires 10 * 10 commits of work.
 
 If I separate the process, I do 10 commits worth of language _and then_ 10 commits worth of framework.
 
-### This is not accurate arithmetic by any means - it’s opiniology. 
+### This is not accurate arithmetic by any means - it’s opiniology.
 
 But it does give me a ballpark: figuring out two unknowns simultaneously is exponentially more difficult than one at a time.
 
 About whether it’s worth applying my learning stages to yourself:
 
----
 
 # This line of thinking is not a system
 
@@ -296,6 +298,5 @@ Nobody likes taking anything home other than victory. Pick battles you’re sure
 ### «No match» also threatens your journey
 Running out of ideas on what to study next is also a dangerous place to be. You could again find yourself dropping out just because you don’t know where to go.
 
-That’s especially the case when big codebases in your new tech still look alien. 
+That’s especially the case when big codebases in your new tech still look alien.
 In this situation: refer back to your repertoire of projects. They’re here to help.
-
