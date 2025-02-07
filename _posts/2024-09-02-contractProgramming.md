@@ -1,13 +1,26 @@
 ---
 layout: post
-title:  "[code] The neurotic astronaut’s guide to assertions"
-date:   2024-09-02 16:18:36 -0400
-categories: assertions code
+title: "The neurotic astronaut's guide to assertions"
+date: 2024-09-02
+categories: [Development, Programming]
+tags: [assertions, contract-programming, code-quality, NASA, safety-critical]
+description: "A practical guide to using assertions and contract programming for better code quality, inspired by NASA's programming principles."
+toc: true
 ---
+
+- [The problem:](#the-problem)
+- [The goal: Write code with no bugs!](#the-goal-write-code-with-no-bugs)
+- [Some strategies:](#some-strategies)
+- [Enter assertions](#enter-assertions)
+- [How do I fit this in the code? How is this a strategy?](#how-do-i-fit-this-in-the-code-how-is-this-a-strategy)
+- [Some syntactic sugar in Go and Zig for this](#some-syntactic-sugar-in-go-and-zig-for-this)
+- [That’s not what a contract does](#thats-not-what-a-contract-does)
+- [NASA does this.](#nasa-does-this)
+- [We all want to build a spaceship](#we-all-want-to-build-a-spaceship)
 
 Notes from another presentation I did at my company.
 
-The following is a dumbed-down version of [Tigerbeetle’s «it takes two to contract»](https://tigerbeetle.com/blog/2023-12-27-it-takes-two-to-contract). 
+The following is a dumbed-down version of [Tigerbeetle’s «it takes two to contract»](https://tigerbeetle.com/blog/2023-12-27-it-takes-two-to-contract).
 Same structure - just fewer words, for my short-attention-span friends.
 
 
@@ -15,11 +28,10 @@ Same structure - just fewer words, for my short-attention-span friends.
 
 How to avenge your frustration by punishing this unwieldy software.
 
----
 
 # The problem:
 
-Every 10 to 100 lines of code, there’s a bug. 
+Every 10 to 100 lines of code, there’s a bug.
 
 Writing computer language is not very prone to stream of thought.
 
@@ -28,7 +40,6 @@ AI promises to solve all our problems, in exchange for living in code-dystopia. 
 # The goal: Write code with no bugs!
 I just want to write things once, give the app a track run, and go back to gardening.
 
----
 
 # Some strategies:
 
@@ -43,7 +54,6 @@ Obviously, these three don’t cover the whole territory:
 - How can we securize the state of the app?
 - How can we make sure that the transforms are correct?
 
----
 
 # Enter assertions
 
@@ -62,7 +72,6 @@ If you were planning on adding a doc comment instead of blowing up the app, you 
 
 > _— Yes. Embrace the chaos.»_
 
----
 
 # How do I fit this in the code? How is this a strategy?
 
@@ -76,7 +85,7 @@ fn Main(){
 }
 
 fn openComponent() {
-  assert(someGlobal == null); 
+  assert(someGlobal == null);
   someGlobal = allocate("hello world");
   assert(someGlobal != null);
 }
@@ -93,7 +102,6 @@ fn closeComponent(){
 }
 ```
 
----
 
 Reading this, was it easy to figure out what `allocate()` and `deallocate()` do?
 
@@ -103,7 +111,6 @@ Does it look like a doc-comment would have been a better option?
 
 Does it look like a unit-test would have been a better option?
 
----
 
 # Some syntactic sugar in Go and Zig for this
 
@@ -123,7 +130,6 @@ This is not just about littering code as a means to feel better.
 4. It alleviates the need to formally prove that the code behaves expectedly
 5. It alleviates (some of the) need to unit test
 
----
 
 # That’s not what a contract does
 
@@ -146,13 +152,12 @@ Everywhere.
 
 > _— Who uses this level of contorsion anyway ?»_
 
----
 
 # NASA does this.
 
 NASA’s Power of 10: Rules for Developing Safety-Critical Code
 
-1. Restrict all code to very simple control flow constructs 
+1. Restrict all code to very simple control flow constructs
   — do not use `goto` statements, `setjmp` or `longjmp` constructs, or direct or indirect recursion.
 2. Give all loops a fixed upper bound.
 3. Do not use dynamic memory allocation after initialization.
@@ -164,11 +169,9 @@ NASA’s Power of 10: Rules for Developing Safety-Critical Code
 9. Limit pointer use to a single dereference, and do not use function pointers.
 10. Compile with all possible warnings active; all warnings should then be addressed before the release of the software.
 
----
 
 # We all want to build a spaceship
 
 Let’s just neurotically break it from time to time.
 
 Thank you, code astronauts.
-
