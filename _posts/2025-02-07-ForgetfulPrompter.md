@@ -15,7 +15,7 @@ Eric S. Raymond, The Cathedral and the Bazaar
 
 ## The Console 1 demo application - version 1.
 
-TLDR: It’s an extension for my favorite music application. It provides deep integration of Softube’s Console1 controller.
+TLDR: I wrote an extension for my favorite music application. It provides deep integration of Softube’s Console1 controller.
 
 The controller is basically a box covered with knobs and buttons which mimcs a mixing studio’s console.
 
@@ -33,12 +33,11 @@ The app was good, but totally incomplete.
 Time for V2 - a year later.
 
 
-# Let’s take a look at the app
-
-
 # PART 2: Comparing features
 
-# Features in V1
+_Where I draw comparisons between V1 and V2, and the amount of work it took._
+
+## Features in V1
 
 - control surface
 - 1 input mode
@@ -65,7 +64,7 @@ SUM:                                27           3148          14610          11
 ```
 
 
-# Features in V2
+## Features in V2
 
 - control surface
 - 5 input modes
@@ -109,7 +108,7 @@ SUM:                                46           3656          11167          15
 Why are we talking about this?
 
 
-# Differencing the two versions
+## Differencing the two versions
 
 - V1: 100 days of work, 4771 LOC, 5 features
 - V2: 7 days of work, 8629 LOC, 17 features
@@ -132,80 +131,39 @@ What’s the key factor in this difference ?
 Using the prompter for auto-completion is one thing. I had clear ideas about the project, but needed some recommendations on how to architect it.
 I drafted a design document, fed it into the prompter’s context, and started the discussion:
 
+> _\<Design document inserted at beginning of discussion\>_
+>
+> I: Here's a draft design outline for my console1 extension for reaper. Provide feedback on the document and suggest data structures which might best match the needs of my project.
+>
+> Prompter: Based on your design document, I can offer this analysis and suggestions for data structures.
+> _State machine definition,_
+> _data structure definitions_
+> Let me outline some key considerations:
+> _point 1: bla bla bla,_
+> _point 2: do this do that,_
+> _point 3: yaddi yadda,_
+>
+> I: About point 1: How can I do X?
+> Also, regarding point 2: Could you explain X aspect?
+> For point 3: Here's what I'm doing, what's the canonical approach for this?
+> By the way, you need to know X, Y and Z about how the module works.
+>
+> Prompter: _<corrects previous suggestions>_ Here's how you can build the state machine:
+> _code example_
+>
+> _Tons more back and forth, discussing general approach and data structures._
+>
+> I: Let's talk about a game plan worth following to put together the project. I reckon the order of the steps ought to be:
+> _proceeds to a bulleted list of steps_
+>
+> Prompter: Let me suggest some refinements and dependencies:
+>
+> _back and forth ensues, until the game plan lands into the design doc._
+> _Implementation begins._
+>
+> _From there, it’s a ride on the highway._
 
-> designDoc.md
-
-## I:
-Here’s a draft design outline for my console1 extension for reaper.
-Provide feedback on the document and suggest data structures which might best match the needs of my project.
-
-## Prompter:
-Based on your design document, here's my analysis and suggestions for data structures:
-
-### State Machine Structure
-```zig
-const Mode = enum { };
-const State = struct { };
-```
-
-### Key Data Structures
-
-```zig
-const ConsoleControl = struct { };
-const FxMapping = struct { };
-const FxParameter = struct { };
-const ChannelStrip = struct { };
-const Settings = struct { };
-```
-
-### Suggestions:
-
-1. **Persistent Storage**: _bla bla bla_
-2. **State Management**: _do this, do that_
-3. **Error Handling**: _yaddi yadda_
-4. **Performance Considerations**: _nya nya nya_
-
-
-## I:
-
-> Storage: Here’s where the files are supposed to be stored, here’s the file format we use. How can I do X?
-> State: Explain X aspect of your suggestion.
-> Error: include Y style of error handling.
-> Performance: Here’s what I’m doing, **what’s the canonical approach for this?**
-
-> Also, you need to know X, Y and Z about how the GUI works. This newts your recommendation. Also, I want to know how to build the state machine.
-
-## Prompter:
-
-_<corrects previous suggestions>_
-
-> Here’s how you can build the state machine
-
-_code example_
-
-[…]
-
-_Tons more back and forth, discussing general approach and data structures._
-
-
-## I:
-
-> Let’s talk about a game plan worth following to put together the project. I reckon the order of the steps ought to be:
-
-_proceeds to a bulleted list of steps_
-
-## Prompter:
-
-> let me suggest some refinements and dependencies:
-
-_back and forth ensues, until the game plan lands into the design doc._
-
-[…]
-
-_Implementation begins._
-
-
-# What changed?
+## What changed?
 
 I involved the prompter from the initial design phase of the project.
 
@@ -218,108 +176,63 @@ So what’s changed is that I’m not using the prompter as an auto-complete: in
 
 # PART 4: Insights and feedback
 
-# The issues:
+## The issues:
 
 - Size of context is the name of the game - for now.
 
-Unfortunately, prompters cannot just be fed your whole code base and be asked to fix it. There’s limitations on how much pre-requisite information you can provide them - that is called the «prompter’s context size». This implies that, in order to yield pertinent answers, you must keep a tight leash on how much the machine needs to know.
+Unfortunately, prompters cannot just be fed your whole code base and be asked to fix it. There’s limitations on how much pre-requisite information you can provide them. This implies that, in order to yield pertinent answers, you must keep a tight leash on how much the machine needs to know.
+
 If you don’t provide enough context, the prompter can’t answer pertinently. If you provide too much context, the prompter can’t answer at all.
 
-- Inline editing is hard, just like keeping separation of concerns is hard:
+Maybe two years from now we’ll have a 2M token-big context, and team-wide collaborative contexts. My gut feeling is that getting managers to adopt collaborative contexts is going to be _much more_ of a challenge than getting devs to use the prompters.
+
+- Inline editing is hard, just like keeping separation of concerns is hard.
+
 Prompters can make changes in-line, but it’s tough to get them to write good local changes when all the app’s pieces are touching each other.
 
 - The deeper into the details, the more sloppy the prompter’s output.
 
-- Inaccurate questions mean I get uneven answers when I re-run the prompt.
+- Inaccurate questions yield uneven answers when I re-run the prompt.
 
 
-- Accurate questions mean I get similar answers when I re-run the prompt.
+- Accurate questions yield similar answers when I re-run the prompt.
 
 
-- One-shot changes that are very custom or have not been solved often do terrible.
+- One-shot problems which are very custom or have not been solved before often do terrible.
 
 
 - Exam-style questions yield the best output - the prompter is nothing but a talking encyclopedia, after all.
 
 
-# Insights
+## Insights
 
-- Non-assisted code is already the world of yesterday. Saying «AI is coming» is already behind.
+- Non-assisted code is already the world of yesterday. Saying «AI is coming» is also the world of yesterday.
 
-- Better writing = better output
+- Better-written prompts = better output
 
 - Write to clarify your ideas, and get feedback on your writing. The quality of the feedback is a proxy for the quality of your writing.
 
 - Best guidance and ideas come from tech-agnostic discussions. Talk first, without code.
 
-- This thing has seen code bases and SO questions I haven’t. It’s got general culture I don’t.
+- This thing has seen code bases and forum answers I haven’t. It’s got general culture I don’t.
 
 - Design docs come first. Then the list of steps, modules, features. Then a game plan, then the implementation.
 
 - 90% of the process is rubber-ducking.
 
-- Live by the tests.
+- Live by the tests, proof-read the code.
 
 - Accurate questions make accurate answers.
 
 - Game plan: design a path with as few dark corners as possible.
 
-- 10x programmers don’t write faster. They only write once. The goal is to get it right on the first try.
+- 10x programmers don’t write faster. They just only write once. The goal is to get it right on the first try.
 
-- How much closer are you to getting it right on the first try now that you have a plan as opposed to when you did not?
+- How much closer are you to getting it right on the first try now that you have a plan, as opposed to when you did not?
 
 - Redoing the work is cheap with a prompter. You can iterate.
 
-## Some more nuanced aspects
-
-In industry, there’s productivity differences of 1 to 10 from a developer to the next. That’s a sad aspect. Some coders are just better or faster than others, and management echelons have to take this as _fait accompli_ - no matter how high the standard in your hiring process.
-
-When prompters came around, a lot of people drew the assumption that using AI was going to increase the productivity of programmers across the board. It was assumed - and still is - that prompters would just level the playing field.
-
-I posit that this is not what is happening.
-
-Among AI opponents, the anti-AI, there are those who say: the output of prompters is so bad that it's absolutely unusable. And anyway, junior developers or users without discernment who try to benefit from it make the work they're trying to do worse; because AI encourages them to never learn by themselves, and to never develop the qualities necessary for developers - i.e. discernment, the ability to handle logic, etc.
-
-These opponents are right.
-
-Only, they are right concerning junior devs. Regarding the quality of prompters' output - they are wrong. They were right a year ago. But today, the quality of the models, the quality of applications, has changed - drastically enough that the quality of questions over-determines the quality of output responses.
-
-Today, what makes AI usage relevant is the relevance of the questions asked to it. But who are the users who ask the most relevant questions? They are those who were already the most capable before.
-
-We started from the principle that AI would level the playing field, bridge the productivity gap between the least and most skilled - in reality, my bet is that it widens it.
-
-It widens it because the devs who will be able to get the maximum advantage and the most significant productivity gain from using AI are those who were already the best before.
-
-## Pascal's Wager
-Then, there is a second category of anti-AI who are - let's say - the Pascalian anti-AI.
-
-What does their way of thinking look like?
-
-They somewhat model their view of AI and what it will become on Google. Google's idea was: "we want to build a database that is omniscient and omnipresent". That is, something that has an answer to everything, that is present in all the world's systems and that has a constant influence and presence in everyone's life.
-
-But if you are omniscient, omnipresent, and omnipotent (and this is what we saw during covid) your knowledge cannot be contradicted by reality - because otherwise it calls into question your omniscience. If you are truly omniscient - which until now tech giants claimed to be - you cannot be wrong. This implies that you have power of preemption over reality. You can preempt reality, even if it proves you wrong. If events prove you wrong, but you are omniscient, then the events are wrong - not you.
-
-This is the artifact of a very transhumanist vision - using technical means to build artificial omniscience, artificial omnipotence, and artificial omnipresence, the tech world considered it was able to manufacture a kind of false god.
-
-That is, a creature that is falsely omniscient, falsely omnipotent and falsely omnipresent. I think many people were afraid of this, that they sensed the existence of this vision among the big leaders, the most successful entrepreneurs in the tech world, and they saw in AI the potential for tenfold continuation of this vision - and they hated the idea.
-
-They hated the idea with good reason because a false god, falsely omniscient, falsely omnipotent, who has power of preemption over reality, and who has the ability to lie and manipulate us to try to control us according to its will, has a name: it's an antichrist. That's what we call an antichrist.
-
-So regarding the Pascalian anti-AI, I think this is a category of person who sensed the transhumanist, antichrist-like vision of AI, and who somewhat deifies tech. They consider that what we are about to create - what we are pursuing through the development of general artificial intelligence - is fundamentally the creation of a false god. It's fundamentally the creation of an antichrist, whose only possible goals - once it gains consciousness - is to destroy humanity.
-
-It's a kind of Pascal's Wager, but inverted: if you believe in the false god, you have everything to lose. However, if you refuse to believe in the false god and turn away from it, you have everything to gain.
-
-Among AI's Pascalians, there is a second perspective that speaks not of the wager, but of Pascal's mugging. The mugging story goes: Pascal is approached by a thief who forgot his knife. The thief tells him: "give me a thousand bucks, I'll go home and bring you back ten thousand." And Pascal replies "No, it's not worth it, since the risk level is too high." So the thief tells him: "Fine, just give me a hundred bucks. I'll prove you wrong and give you back not ten thousand but a million."
-The lesson of this story is to balance risk levels. It's about balancing the level of gain and potential benefit drawn from a bet of this size.
-
-In both cases - pure Pascalians and Pascal's muggers have a very Manichean vision, very deifying of the tech phenomenon, and which systematically substitutes for human judgment.
-They have somewhat of a fascist dimension - they credit the transhumanist idea that common man is very small before great minds and that his submission to technological domination is inevitable.
-They have somewhat - despite themselves - this desire to resist this vision, while crediting it as being valid, possible, and inevitable.
-
-It's a somewhat eschatological view, somewhat bourgeois, somewhat Manichean, somewhat science fiction, and it's difficult for me to say if it can materialize - I have my doubts on the question. Here's why.
-
-What we currently see in AI usage is that its quality, its result, its scope, its aim, are exclusively determined by the use we make of it - i.e. by the discernment, intelligence and intentions of the human factor.
-# What comes next?
+## What comes next?
 
 - Now you can really go top-down.
 
@@ -330,4 +243,4 @@ What we currently see in AI usage is that its quality, its result, its scope, it
 - Open the door to collaborative contexts - e.g. in the form of an `Architecture.md`
 
 
-# Thank you for listening
+# Thank you for reading
