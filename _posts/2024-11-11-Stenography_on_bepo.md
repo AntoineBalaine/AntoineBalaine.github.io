@@ -1,11 +1,28 @@
 ---
 layout: post
-title:  "[code] Bépo Steno: the day I tried to type at the speed of speech"
-date:   2024-11-11 09:09:36 -0400
-categories: Plover steno Grandjean
+title: "Bépo Steno: The Day I Tried to Type at the Speed of Speech"
+date: 2024-11-11 09:09:36 -0400
+categories: [Development, Stenography]
+tags: [plover, steno, grandjean, bepo, keyboard-layout]
+description: "A deep dive into building a French stenography plugin for Plover using the Bépo keyboard layout and Grandjean method"
+toc: true
 ---
 
-# Bépo Steno: a french stenography plugin
+- [Why would you do that?](#why-would-you-do-that)
+- [How does it work?](#how-does-it-work)
+- [Credits, acknowledgements](#credits-acknowledgements)
+- [So what’s this plugin thing?](#so-whats-this-plugin-thing)
+  - [What does the method entail?](#what-does-the-method-entail)
+  - [Syllabic versus word-based, which to prefer?](#syllabic-versus-word-based-which-to-prefer)
+  - [Who’s this plugin for?](#whos-this-plugin-for)
+  - [Some of the changes I did](#some-of-the-changes-i-did)
+  - [Adaptations from the original Grandjean method (and plover)](#adaptations-from-the-original-grandjean-method-and-plover)
+    - [Step one: reducing dual-use Letters](#step-one-reducing-dual-use-letters)
+    - [Steno Order of Bépo-Steno](#steno-order-of-bépo-steno)
+      - [É and È Keys: Disambiguating Homophones](#é-and-è-keys-disambiguating-homophones)
+      - [H Key: Apostrophes and Homophones](#h-key-apostrophes-and-homophones)
+      - [Space Key - Splitting the Previous Stroke](#space-key---splitting-the-previous-stroke)
+
 
 Three years ago, I put together [this project](https://github.com/AntoineBalaine/bepo-steno?tab=readme-ov-file).
 It’s a plugin for a stenography software called plover.
@@ -26,7 +43,7 @@ As I was looking into steno, I wondered if it was possible to do it on a regular
 
 There’s this non-standard french layout called [Bépo](https://bepo.fr/wiki/Accueil). It’s built around a frequency analysis of the letters: the most used letters are in the center row, the vowels are in the left hand, and the consonants are in the right hand.
 
-I found that if I tweaked the layout a bit, it was possible to use this 100-year old french steno technique, called the Grandjean method. 
+I found that if I tweaked the layout a bit, it was possible to use this 100-year old french steno technique, called the Grandjean method.
 
 en
 # Credits, acknowledgements
@@ -43,22 +60,22 @@ The plugin relies on [Plover](https://www.openstenoproject.org/plover/), which i
 For my plugin, I built a very large JSON dictionary (300k+ entries) that matches key strokes to syllables and words, using the rules of the Grandjean method. If you use an ortholinear keyboard (works on a 40% keyboard, such as the Plank keyboard), and do writing in french, it can reach speeds of 170 words per minute.
 
 ## What does the method entail?
-The point is that Grandjean is a syllabic method. At its core, one multi-key-stroke = one syllable. Each word is represented in a JSON dictionary (key/value pairs) where a series of slash-separated strokes will serve as keys to a word. As you type, the program converts your strokes into words: 
+The point is that Grandjean is a syllabic method. At its core, one multi-key-stroke = one syllable. Each word is represented in a JSON dictionary (key/value pairs) where a series of slash-separated strokes will serve as keys to a word. As you type, the program converts your strokes into words:
 ```JSON
 TEl/MI/NE: terminé
 ```
 
-This syllabic technique is NOT the same as the Ward-Ireland technique, which is used in English. That one is word-based: one stroke = one word. Obviously, when comparing the two, there’s exceptions to the rule: french stenos will write custom dictionaries where long words are represented as single strokes, and inversely English-speaking stenos can sometimes break out some words syllabically if they need to. 
+This syllabic technique is NOT the same as the Ward-Ireland technique, which is used in English. That one is word-based: one stroke = one word. Obviously, when comparing the two, there’s exceptions to the rule: french stenos will write custom dictionaries where long words are represented as single strokes, and inversely English-speaking stenos can sometimes break out some words syllabically if they need to.
 
 ## Syllabic versus word-based, which to prefer?
 Word-based can achieve faster typing speeds, but it takes much longer to master.
 Syllable-based is easier to pick up, but it’s harder to reach the speed of speech with it.
 
-Professional steno is a long and risky endeavour - the drop out rate in steno schools is astoundingly high, on both sides of the channel. Lots of students find themselves hitting a plateau half-way through the curriculum, only to decide the career is not for them. 
+Professional steno is a long and risky endeavour - the drop out rate in steno schools is astoundingly high, on both sides of the channel. Lots of students find themselves hitting a plateau half-way through the curriculum, only to decide the career is not for them.
 
 
 ## Who’s this plugin for?
-Obviously, despite advertising it to professional stenographers and all kinds of writer-nerds, my plugin never caught on. Steno itself is fun to use, but also comes with a ton of constraints. 
+Obviously, despite advertising it to professional stenographers and all kinds of writer-nerds, my plugin never caught on. Steno itself is fun to use, but also comes with a ton of constraints.
 For the french pros: they need a more robust solution than this - at least a software that’s more featureful than what I can offer here.
 For the small pool of potential aficionados: you need to know french, own an ortholinear keyboard, use the bépo layout, and be into stenography - that’s probably about two guys in the world (including me).  If I were a writer or an academic in the french language, this would probably be a godsend, though.
 
@@ -86,7 +103,7 @@ My plugin uses these keys:
 
 `S K P M T F * R N L Y H O ^ E È A À U I l É n $ B D C <space> . ,`
 
-So there’s a fair amount more there. The original layout allows typing quickly, but this makes transcribing automatically challenging: the key strokes are very phonetic, so for example if you have a set of keystrokes which phonetically sounds as something that could be orthographed multiple ways, you find yourself in a pickle: now your software has to be able to choose which transcription is more likely to be correct. 
+So there’s a fair amount more there. The original layout allows typing quickly, but this makes transcribing automatically challenging: the key strokes are very phonetic, so for example if you have a set of keystrokes which phonetically sounds as something that could be orthographed multiple ways, you find yourself in a pickle: now your software has to be able to choose which transcription is more likely to be correct.
 These phonetic ambiguities are called homophones (aka «sounds the same»).
 
 As a fix, I included an extra layer of keys which allow dis-ambiguating the homophones. Essentially, they’re keys that tell the software how to spell/conjugate. It wasn’t too difficult to include them (aside from the endless regexes in vim), I just had to attach them to those of the keys that were un-used by the original Grandjean method.
