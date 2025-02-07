@@ -1,10 +1,13 @@
 ---
 layout: post
-title:  "[code] Zig’s unions, interfaces, and multi-arrays: the shoot-out"
-date:   2024-10-03 09:09:36 -0400
-categories: Zig code
+title: "Zig's unions, interfaces, and multi-arrays: the shoot-out"
+date: 2024-10-03
+categories: [Development, Zig]
+tags: [zig, unions, interfaces, data-structures, performance, benchmarking]
+description: "A performance comparison between different approaches to polymorphism in Zig: unions, interfaces, and multi-arrays."
+toc: true
 ---
-# Table of Contents
+
 - [Introduction](#introduction)
 - [Unions](#unions)
 - [Interfaces](#interfaces)
