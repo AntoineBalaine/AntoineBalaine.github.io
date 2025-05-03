@@ -23,6 +23,16 @@ toc: true
   - [Basic Noise Reduction](#basic-noise-reduction)
   - [Fine-Tuning](#fine-tuning)
   - [Tips](#tips)
+- [A suggested podcast-editing session template](#a-suggested-podcast-editing-session-template)
+  - [1. Session Structure](#1-session-structure)
+  - [2. Editing Workflow](#2-editing-workflow)
+    - [A. Prep & Cleanup](#a-prep--cleanup)
+    - [B. Dialogue Editing](#b-dialogue-editing)
+    - [C. Putting it together](#c-putting-it-together)
+    - [D. Final Polish](#d-final-polish)
+  - [3. Version Control & Experimentation](#3-version-control--experimentation)
+  - [5. Tips for Efficient Workflow](#5-tips-for-efficient-workflow)
+  - [Summary Table](#summary-table)
 
 ## Preparation
 
@@ -226,3 +236,106 @@ _Make sure to watch til the end, please_
 - Preview the audio before and after by toggling the FX bypass button
 - For very specific noise issues, you can manually edit the noise profile by manipulating the curve on the graph
 - Save your settings as a preset if you need to process multiple similar recordings
+
+# A suggested podcast-editing session template
+
+How should my podcast editing session be structured?
+Should I start by cutting off background noise, balancing levels between microphones, cutting off the `ums…` and `ugh…`s of hesitations of the interviewees and then move on to the editing of the session (cropping chunks, re-organizing the order of the questions)?
+
+Here’s a very basic _**AUTO-GENERATED**_ template structure for podcast editing:
+
+
+## 1. Session Structure
+
+**Typical Track Layout, IF YOU ARE DOING MULTI-MICROPHONE RECORDINGS:**
+- **Host Mic**
+- **Guest Mic(s)**
+- **Music/Intro/Outro**
+- **Sound FX**
+- **Reference/Guide Track** (if needed)
+
+**In Reaper, Folder Tracks** can help keep things tidy, especially if you have multiple guests or segments.
+
+## 2. Editing Workflow
+
+### A. Prep & Cleanup
+1. **Import all audio** and line up the tracks.
+2. **Group related items** (e.g., host and guest mics for a segment).
+3. **Noise Reduction:**
+   - Use ReaFIR or a third-party plugin for gentle broadband noise reduction.
+   - Remove obvious background noise sections (coughs, bumps, etc.).
+4. **Level Balancing:**
+   - Use item volume handles or envelopes.
+   - Optionally, use a plugin like ReaComp or ReaEQ for basic tone/level matching.
+
+### B. Dialogue Editing
+1. **Remove Filler Words:**
+   - Cut out “um,” “uh,” long pauses, stutters, etc.
+   - Use ripple editing (Ripple Mode means «All Tracks») to keep everything in sync.
+2. **Content Editing:**
+   - Rearrange questions/answers if needed.
+   - Cut out tangents or off-topic sections.
+   - Use markers to note sections you might want to revisit.
+
+#### _Note about this specific topic:_
+_The time-consuming tasks are here. I’m looking at ways to automate this process, I have the pieces scattered but I yet have to put it together._
+
+_It will involve: calling an online service to auto-generate subtitles. Since subtitles carry time-stamps, it will be possible to re-import the timestamps corresponding to the «filler words» as markers into the session. From there you can add automations to perform the cuts based on the marker positions._
+
+_For the content editing, we can also re-use the subtitle service, and feed it into another service that will generate markers with a note: «at T 00:10, this topic is discussed, at T 00:20, this other topic is discussed.». This should also make it easier to create a «table of contents» for your recording._
+
+### C. Putting it together
+1. **Add Music/FX:**
+   - Place intro/outro music, stingers, etc.
+2. **Transitions:**
+   - Crossfades for smooth edits.
+   - Duck music under dialogue as needed.
+
+#### About crossfades:
+Here’s an excellent [tutorial](https://www.youtube.com/watch?v=HLFMV7ae3TE) about how to do them in reaper.
+
+### D. Final Polish
+1. **Master Bus Processing:**
+   - Light compression, EQ, and limiting for loudness consistency.
+   - Aim for -16 LUFS (mono) or -19 LUFS (stereo) for podcast standards.
+2. **Export/Render:**
+   - Render to WAV/MP3 as needed.
+
+_This is probably not going to be very relevant for a beginner podcaster, though._
+
+###  Version Control & Experimentation
+
+When it comes to saving multiple versions of a same project, there’s unfortunately not a single way of doing things, and different approaches will fit different needs. Either you
+- create different regions in the session (horizontally represent alternates) or
+- create multiple Major versions of your session file (move the versioning to the file system) or
+- use markers and notes across multiple tracks (vertically represent alternates).
+- use the `playlist` function which allows previewing edits in a session - this is advanced, though.
+
+**Most podcasters use one session per episode**, and do major revisions as “Save As” versions. This is unpractical, but it’s the least-worst option.
+**Regions** are used for marking segments (intro, main, outro) or alternate edits.
+**Markers** can be used for navigation and notes in a session. This is where it would be useful to auto-generate them, based on a transcription service.
+
+###  Tips for Efficient Workflow
+
+- Ripple Editing is your friend for dialogue editing.
+- Color-code tracks and regions for quick visual reference.
+- Use custom actions/scripts _(there’s a lot of people who share automations online, though this is a rabbit hole for beginners because there are so many options)._
+- Templates: Build a podcast session template with your preferred routing, FX, and track layout.
+
+
+### Summary Table
+
+| Task                        | Where/How in Reaper                |
+| Noise Reduction             | Item FX or Track FX                |
+| Level Balancing             | Item volume, envelopes, FX         |
+| Remove Filler Words         | Ripple Editing, split/delete       |
+| Rearranging Content         | Drag items, ripple mode            |
+| Alternate Edits             | Regions, Save-As, Take Lanes       |
+| Version Control             | Save-As, Regions, Markers          |
+| Final Mastering             | Master FX chain, render            |
+
+
+#### In short:
+- Start with cleanup and leveling, then dialogue editing, then assembly.
+- Use Save-As for major versions, regions for alternate edits, and markers for navigation.
+- Don’t be afraid to experiment—Reaper’s flexibility is perfect for podcasting!
