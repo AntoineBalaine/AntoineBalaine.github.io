@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Devlog: ZlowCheck’s model testing"
-date: 2025-02-23
+date: 2025-05-09
 categories: [devlog, code]
 tags: [property-based testing, zig, PRNG, devlog]
 description: "Property-based testing 2: model tests"
