@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "TreeList: benchmarking"
+title: "TreeList 4: benchmarking"
 date: 2025-06-02
 categories: [devlog, code]
 tags: [array-pool, zig, devlog]

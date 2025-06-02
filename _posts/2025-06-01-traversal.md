@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "TreeList: how do I traverse?"
+title: "TreeList 3: how do I traverse?"
 date: 2025-06-01
 categories: [devlog, code]
 tags: [array-pool, zig, devlog]
